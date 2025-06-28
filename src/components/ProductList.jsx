@@ -8,8 +8,8 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({ name: '', price: '', image: null });
   const [editId, setEditId] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('All');
   const [showModal, setShowModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const fetchProducts = async () => {
     try {
@@ -43,6 +43,7 @@ const ProductList = () => {
       const data = new FormData();
       data.append('name', formData.name);
       data.append('price', formData.price);
+      data.append('quantity', formData.quantity || 0);
       if (formData.image) data.append('image', formData.image);
 
       if (editId) {
@@ -57,7 +58,7 @@ const ProductList = () => {
         toast.success('Product created');
       }
 
-      setFormData({ name: '', price: '', image: null });
+      setFormData({ name: '', price: '',quantity: '', image: null });
       setEditId(null);
       setShowModal(false);
       fetchProducts();
@@ -67,7 +68,7 @@ const ProductList = () => {
   };
 
   const handleEdit = product => {
-    setFormData({ name: product.name, price: product.price, image: null });
+    setFormData({ name: product.name, price: product.price,quantity: product.quantity, image: null });
     setEditId(product._id);
     setShowModal(true);
   };
@@ -91,7 +92,7 @@ const ProductList = () => {
 
       <div className="mb-6">
         <button
-          onClick={() => { setEditId(null); setFormData({ name: '', price: '', image: null }); setShowModal(true); }}
+          onClick={() => { setEditId(null); setFormData({ name: '', price: '',quantity: '', image: null }); setShowModal(true); }}
           className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded shadow"
         >
           ➕ Add New Product
@@ -115,6 +116,15 @@ const ProductList = () => {
                 name="price"
                 placeholder="Product Price"
                 value={formData.price}
+                onChange={handleChange}
+                type="number"
+                className="border p-2 rounded"
+                required
+              />
+              <input
+                name="quantity"
+                placeholder="Product Quantity"
+                value={formData.quantity}
                 onChange={handleChange}
                 type="number"
                 className="border p-2 rounded"

@@ -12,6 +12,7 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
       
       />
       <h3 className="text-lg font-bold">{product.name}</h3>
+         <p className="text-gray-600">Qty : {product.quantity}</p>
       <p className="text-gray-600">Rs. {product.price}</p>
 
       <div className="flex justify-center gap-2 mt-4">
